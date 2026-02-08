@@ -1,8 +1,20 @@
-/*
+.remove-empty-daily-list {
+	font-family: var(--font-monospace);
+	font-size: var(--font-ui-smaller);
+	line-height: 1.4;
+}
 
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
+.remove-empty-daily-list-container {
+	max-height: 260px;
+	overflow: auto;
+	margin-bottom: 16px;
+	padding: 8px;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 6px;
+}
 
-If your plugin does not need CSS, delete this file.
-
-*/
+.remove-empty-daily-button-row {
+	display: flex;
+	gap: 8px;
+	justify-content: flex-end;
+}

@@ -1,11 +1,10 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
+	"id": "remove-empty-daily",
+	"name": "清理空白每日笔记",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"description": "安全清理 Daily notes 中内容为空的每日笔记（默认二次确认并移动到系统回收站）。",
+	"author": "mac46",
+	"authorUrl": "",
 	"isDesktopOnly": false
 }

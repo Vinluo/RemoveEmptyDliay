@@ -1,90 +1,91 @@
-# Obsidian Sample Plugin
+# Remove Empty Daily Notes (Obsidian Plugin)
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+Safely clean up empty daily notes created by Obsidian Daily notes.
 
-This project uses TypeScript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in TypeScript Definition format, which contains TSDoc comments describing what it does.
+## What It Does
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open modal (simple)" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
+- Provides 3 commands:
+  - `Clean today's empty daily notes`
+  - `Clean recent n days empty daily notes`
+  - `Clean all empty daily notes`
+- Only processes notes recognized as Daily notes.
+- Uses a confirmation list before deletion (enabled by default).
+- Moves files to trash instead of permanent deletion.
+- Supports manual daily notes config override when auto-detection fails.
 
-## First time developing plugins?
+## Empty Note Rules (Safety First)
 
-Quick starting guide for new plugin devs:
+A note is considered deletable only when all checks pass:
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
+1. Note body is whitespace-only.
+2. Frontmatter has no meaningful non-ignored values.
+3. Ignored keys are case-insensitive and punctuation-insensitive.
+4. If frontmatter parsing is uncertain, the note is skipped.
 
-## Releasing new releases
+Default ignored keys include:
 
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
+- `ctime`
+- `mtime`
+- `created`
+- `updated`
+- `created_at`
+- `updated_at`
+- `createdtime`
+- `updatedtime`
+- `late modified`
+- `last modified`
+- `date modified`
+- `date-modified`
 
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
+## Settings
 
-## Adding your plugin to the community plugin list
+- `Default recent n days`: default `30`
+- `Require confirmation before delete`: default `true`
+- `Ignored frontmatter keys`: comma/newline separated
+- `Daily notes folder override (optional)`
+- `Daily notes date format override (optional)`
 
-- Check the [plugin guidelines](https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines).
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
+If auto-read fails, set folder + date format manually (for example `YYYY-MM-DD`).
 
-## How to use
+## Chinese UI Labels (Current)
 
-- Clone this repo.
-- Make sure your NodeJS is at least v16 (`node --version`).
-- `npm i` or `yarn` to install dependencies.
-- `npm run dev` to start compilation in watch mode.
+Current command labels in the plugin UI are Chinese:
 
-## Manually installing the plugin
+- `清理今天的空白每日笔记`
+- `清理最近 n 天空白每日笔记`
+- `清理全部空白每日笔记`
 
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
+Current setting labels in the plugin UI are Chinese:
 
-## Improve code quality with eslint
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code. 
-- This project already has eslint preconfigured, you can invoke a check by running`npm run lint`
-- Together with a custom eslint [plugin](https://github.com/obsidianmd/eslint-plugin) for Obsidan specific code guidelines.
-- A GitHub action is preconfigured to automatically lint every commit on all branches.
+- `最近 n 天默认值`
+- `删除前二次确认`
+- `属性忽略字段`
+- `每日笔记目录覆盖（可选）`
+- `每日笔记日期格式覆盖（可选）`
 
-## Funding URL
+## Development
 
-You can include funding URLs where people who use your plugin can financially support it.
-
-The simple way is to set the `fundingUrl` field to your link in your `manifest.json` file:
-
-```json
-{
-    "fundingUrl": "https://buymeacoffee.com"
-}
+```bash
+npm install
+npm run dev
+npm run test
+npm run build
 ```
 
-If you have multiple URLs, you can also do:
+## Manual Installation
 
-```json
-{
-    "fundingUrl": {
-        "Buy Me a Coffee": "https://buymeacoffee.com",
-        "GitHub Sponsor": "https://github.com/sponsors",
-        "Patreon": "https://www.patreon.com/"
-    }
-}
-```
+Copy these 3 files to:
 
-## API Documentation
+`<Vault>/.obsidian/plugins/remove-empty-daily/`
 
-See https://docs.obsidian.md
+- `main.js`
+- `manifest.json`
+- `styles.css`
+
+Then enable it in **Settings → Community plugins**.
+
+## Privacy
+
+- No telemetry
+- No network calls
+- Manual command execution only
